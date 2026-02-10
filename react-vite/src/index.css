@@ -1,0 +1,410 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* App baseline (mobile-first) */
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: #04081a;
+  color: #ffffff;
+  font-size: 16px; /* avoid <16px on mobile */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ritual MVP theme tokens (from First Prompt reference palette) */
+:root {
+  --ritual-bg: #100c08; /* Smoky Black */
+  --ritual-orange: #ff9408; /* Merin’s Fire */
+  --ritual-spice: #ca3f16; /* Sauce Piquante */
+  --ritual-burgundy: #95122c; /* Bacchic Burgundy */
+  --ritual-paper: #f3f4f5; /* Chef’s Hat */
+  --ritual-cloud: #dbe0e1; /* Drifting Cloud */
+
+  /* Exhale intro palette (from animation1.PNG vibes: citrus + glass) */
+  --exhale-ink: #07110c;
+  --exhale-green: #29d38b;
+  --exhale-lime: #c8ff4d;
+  --exhale-yellow: #ffd84a;
+  --exhale-orange: #ff8a2a;
+}
+
+@keyframes exhaleIntroFade {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  12% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  88% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes exhaleBlobMorph {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(0.85);
+    border-radius: 38% 62% 55% 45% / 44% 42% 58% 56%;
+  }
+  35% {
+    transform: translate3d(10px, -10px, 0) rotate(18deg) scale(1.02);
+    border-radius: 58% 42% 40% 60% / 55% 62% 38% 45%;
+  }
+  70% {
+    transform: translate3d(-8px, 6px, 0) rotate(-10deg) scale(0.98);
+    border-radius: 44% 56% 60% 40% / 42% 48% 52% 58%;
+  }
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg) scale(0.92);
+    border-radius: 38% 62% 55% 45% / 44% 42% 58% 56%;
+  }
+}
+
+@keyframes exhaleGlowDrift {
+  0% {
+    transform: translate3d(-8%, -6%, 0) scale(1.05);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translate3d(6%, 4%, 0) scale(1.15);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translate3d(-6%, 8%, 0) scale(1.08);
+    opacity: 0.6;
+  }
+}
+
+.exhale-glass-wrap {
+  perspective: 900px;
+}
+
+@keyframes exhaleGlassRotate {
+  0% {
+    transform: translate3d(0, 8px, 0) rotateX(10deg) rotateY(-22deg) rotateZ(-8deg)
+      scale(0.92);
+  }
+  45% {
+    transform: translate3d(0, -2px, 0) rotateX(16deg) rotateY(18deg) rotateZ(10deg)
+      scale(1);
+  }
+  100% {
+    transform: translate3d(0, -6px, 0) rotateX(10deg) rotateY(-8deg) rotateZ(4deg)
+      scale(0.96);
+  }
+}
+
+@keyframes exhaleGlassMorph {
+  0% {
+    border-radius: 58% 42% 46% 54% / 58% 62% 38% 42%;
+  }
+  18% {
+    border-radius: 44% 56% 62% 38% / 40% 55% 45% 60%;
+  }
+  40% {
+    border-radius: 62% 38% 40% 60% / 60% 42% 58% 40%;
+  }
+  62% {
+    border-radius: 50% 50% 58% 42% / 46% 60% 40% 54%;
+  }
+  82% {
+    border-radius: 40% 60% 46% 54% / 60% 44% 56% 40%;
+  }
+  100% {
+    border-radius: 58% 42% 46% 54% / 58% 62% 38% 42%;
+  }
+}
+
+@keyframes exhaleGlassSpecularSweep {
+  0% {
+    transform: translate3d(-38%, -18%, 0) rotate(18deg);
+    opacity: 0.0;
+  }
+  22% {
+    opacity: 0.7;
+  }
+  55% {
+    transform: translate3d(12%, 0%, 0) rotate(18deg);
+    opacity: 0.35;
+  }
+  100% {
+    transform: translate3d(48%, 12%, 0) rotate(18deg);
+    opacity: 0.0;
+  }
+}
+
+@keyframes exhaleGlassCaustics {
+  0% {
+    filter: blur(0.25px) saturate(1.05) contrast(1.05);
+    opacity: 0.68;
+  }
+  50% {
+    filter: blur(0.55px) saturate(1.18) contrast(1.1);
+    opacity: 0.88;
+  }
+  100% {
+    filter: blur(0.35px) saturate(1.08) contrast(1.05);
+    opacity: 0.74;
+  }
+}
+
+.exhale-glass {
+  position: relative;
+  width: 270px;
+  height: 270px;
+  margin: 0 auto;
+  border-radius: 58% 42% 46% 54% / 58% 62% 38% 42%;
+  transform-style: preserve-3d;
+  animation:
+    exhaleGlassRotate 5000ms cubic-bezier(0.2, 0.8, 0.2, 1) both,
+    exhaleGlassMorph 5000ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  background:
+    /* chrome/silver body */
+    radial-gradient(70% 85% at 35% 22%, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.06) 56%, rgba(0, 0, 0, 0.0) 74%),
+    radial-gradient(90% 85% at 78% 42%, rgba(235, 242, 255, 0.45), rgba(235, 242, 255, 0.0) 60%),
+    radial-gradient(110% 120% at 65% 72%, rgba(0, 0, 0, 0.62), rgba(0, 0, 0, 0.0) 58%),
+    /* orange internal glow (primary, video-like) */
+    radial-gradient(92% 80% at 78% 26%, rgba(255, 148, 8, 0.78), rgba(255, 148, 8, 0.0) 62%),
+    radial-gradient(70% 60% at 34% 74%, rgba(202, 63, 22, 0.62), rgba(202, 63, 22, 0.0) 64%),
+    /* tiny green/yellow tinge (secondary) */
+    radial-gradient(55% 55% at 26% 34%, rgba(41, 211, 139, 0.18), rgba(41, 211, 139, 0.0) 62%),
+    radial-gradient(55% 55% at 58% 82%, rgba(255, 216, 74, 0.16), rgba(255, 216, 74, 0.0) 64%);
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    inset 0 0 26px rgba(255, 255, 255, 0.10),
+    inset 0 0 44px rgba(255, 148, 8, 0.10);
+  backdrop-filter: blur(10px);
+}
+
+.exhale-glass::before {
+  /* specular highlight sweep */
+  content: '';
+  position: absolute;
+  inset: -10%;
+  border-radius: inherit;
+  background:
+    radial-gradient(30% 55% at 35% 22%, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.0) 70%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.0), rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.0));
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: exhaleGlassSpecularSweep 5000ms ease-out both;
+  filter: blur(0.35px);
+}
+
+.exhale-glass::after {
+  /* refraction rim + subtle internal caustics */
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border-radius: inherit;
+  background:
+    radial-gradient(80% 70% at 60% 55%, rgba(255, 255, 255, 0.12), rgba(0, 0, 0, 0.0) 65%),
+    conic-gradient(from 210deg at 50% 50%,
+      rgba(255, 148, 8, 0.20),
+      rgba(255, 216, 74, 0.18),
+      rgba(41, 211, 139, 0.14),
+      rgba(255, 148, 8, 0.20)
+    );
+  opacity: 0.8;
+  animation: exhaleGlassCaustics 5000ms ease-in-out both;
+  filter: blur(1.2px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    inset 0 0 26px rgba(255, 148, 8, 0.14);
+}
+
+.exhale-glass-reflection {
+  width: 240px;
+  height: 60px;
+  margin: -22px auto 0;
+  border-radius: 999px;
+  background: radial-gradient(closest-side, rgba(255, 148, 8, 0.22), rgba(0, 0, 0, 0.0));
+  filter: blur(10px);
+  opacity: 0.55;
+}
+
+.exhale-intro-fade {
+  animation: exhaleIntroFade 6200ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+.exhale-blob {
+  animation: exhaleBlobMorph 1800ms cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  will-change: transform, border-radius;
+}
+
+.exhale-glow {
+  animation: exhaleGlowDrift 1600ms ease-in-out both;
+  will-change: transform, opacity;
+}
+
+@keyframes exhaleSheenSweep {
+  0% {
+    transform: translate3d(-65%, -35%, 0) rotate(16deg);
+    opacity: 0;
+  }
+  18% {
+    opacity: 0.12;
+  }
+  55% {
+    transform: translate3d(10%, 0%, 0) rotate(16deg);
+    opacity: 0.08;
+  }
+  100% {
+    transform: translate3d(75%, 45%, 0) rotate(16deg);
+    opacity: 0;
+  }
+}
+
+.exhale-sheen {
+  background:
+    radial-gradient(45% 60% at 30% 25%, rgba(255,255,255,0.10), rgba(255,255,255,0.0) 70%),
+    linear-gradient(90deg, rgba(255,255,255,0.0), rgba(255,255,255,0.14), rgba(255,255,255,0.0));
+  mix-blend-mode: screen;
+  animation: exhaleSheenSweep 2600ms ease-in-out infinite;
+  filter: blur(0.6px);
+}
+
+@keyframes exhaleEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.exhale-enter {
+  animation: exhaleEnter 520ms ease-out both;
+}
+
+@keyframes exhaleTrackDraw {
+  from {
+    stroke-dasharray: 260;
+    stroke-dashoffset: 260;
+  }
+  to {
+    stroke-dasharray: 260;
+    stroke-dashoffset: 0;
+  }
+}
+
+.exhale-track-draw {
+  animation: exhaleTrackDraw 900ms ease-out both;
+}
+
+@keyframes exhaleNodePulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.92;
+  }
+}
+
+.exhale-node-pulse {
+  transform-origin: center;
+  animation: exhaleNodePulse 1200ms ease-in-out infinite;
+}
+
+#root {
+  height: 100%;
+}
+
+@keyframes deckFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.deck-fade-in {
+  animation: deckFadeIn 420ms ease-out both;
+  will-change: opacity, transform;
+}
+
+@keyframes deckAurora {
+  0% {
+    transform: translate3d(-1%, -1%, 0) scale(1.02);
+    opacity: 0.35;
+    filter: blur(0.4px);
+  }
+  50% {
+    transform: translate3d(1%, 0.5%, 0) scale(1.04);
+    opacity: 0.55;
+    filter: blur(0.8px);
+  }
+  100% {
+    transform: translate3d(-0.5%, 1%, 0) scale(1.03);
+    opacity: 0.40;
+    filter: blur(0.6px);
+  }
+}
+
+.deck-aurora {
+  animation: deckAurora 10s ease-in-out infinite;
+  will-change: transform, opacity, filter;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0ms !important;
+    animation-duration: 0ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
