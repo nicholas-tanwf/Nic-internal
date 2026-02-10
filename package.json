@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "cd react-vite && npm run dev",
-    "build": "cd react-vite && npm install && npm run build && cp -r dist ../dist",
+    "dev": "vite",
+    "build": "vite build",
     "lint": "eslint .",
-    "preview": "cd react-vite && npm run preview"
+    "preview": "vite preview"
   },
   "dependencies": {
     "react": "^19.2.0",
